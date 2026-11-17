@@ -1,5 +1,7 @@
-import pandas as pd
+import os
+
 import numpy as np
+import pandas as pd
 
 def generate_renewable_dataset():
     """Generates realistic German TSO-level renewable generation & grid feed-in data."""
@@ -46,6 +48,7 @@ def generate_renewable_dataset():
         records.append(df_tso)
 
     full_df = pd.concat(records, ignore_index=True)
+    os.makedirs("data", exist_ok=True)
     full_df.to_parquet("data/renewable_energy_timeseries.parquet", index=False)
     print("Dataset generated successfully: data/renewable_energy_timeseries.parquet")
     return full_df
