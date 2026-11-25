@@ -1,5 +1,8 @@
 # 🌬️☀️ German Energiewende: Renewable Feed-In & Curtailment Dashboard
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://german-renewable-energy.streamlit.app/)  
+**Live demo:** https://german-renewable-energy.streamlit.app/
+
 An interactive **Streamlit** dashboard that makes renewable energy integration in the German grid easy to read for non-technical stakeholders: how much wind and solar is produced, how it compares to demand, and when and where feed-in has to be curtailed.
 
 > The data is **synthetic**: one year (2025) of hourly values for the four German TSO control areas (TenneT, 50Hertz, Amprion, TransnetBW), generated with realistic seasonal and daily patterns. It is created automatically on first run.
