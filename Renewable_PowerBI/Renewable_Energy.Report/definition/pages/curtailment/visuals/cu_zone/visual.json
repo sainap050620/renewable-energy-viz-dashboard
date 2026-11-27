@@ -27,8 +27,7 @@
                 }
               },
               "queryRef": "dim_zone.tso_zone",
-              "nativeQueryRef": "tso_zone",
-              "active": true
+              "nativeQueryRef": "tso_zone"
             },
             {
               "field": {

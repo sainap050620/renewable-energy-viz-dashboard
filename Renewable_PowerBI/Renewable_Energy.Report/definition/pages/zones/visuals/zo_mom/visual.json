@@ -27,8 +27,7 @@
                 }
               },
               "queryRef": "dim_date.year_month",
-              "nativeQueryRef": "year_month",
-              "active": true
+              "nativeQueryRef": "year_month"
             },
             {
               "field": {
