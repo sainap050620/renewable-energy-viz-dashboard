@@ -103,3 +103,14 @@ def test_typed_columns_exist_in_data():
         header = set(pd.read_csv(ROOT / "data" / "processed" / loaded.group(1), nrows=0).columns)
         typed = set(re.findall(r'\{"([^"]+)", (?:type \w+|Int64\.Type)\}', text))
         assert typed == header, path.stem
+
+
+def test_tables_do_not_hide_fields():
+    """If only some fields of a table are marked "active", Power BI hides the others."""
+    for path in REPORT.glob("pages/*/visuals/*/visual.json"):
+        visual = json.loads(read(path))["visual"]
+        if visual["visualType"] != "tableEx":
+            continue
+        for role in visual["query"]["queryState"].values():
+            flags = {projection.get("active", False) for projection in role["projections"]}
+            assert len(flags) == 1, path.parent.name

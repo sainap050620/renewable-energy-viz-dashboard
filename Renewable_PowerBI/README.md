@@ -13,13 +13,14 @@ The data is **synthetic** (hourly values for 2025).
 
 ## Open it
 
-1. In Power BI Desktop, make sure the preview features **Power BI Project (.pbip) save option**,
-   **Store semantic model using TMDL format** and **Store reports using enhanced metadata format (PBIR)**
-   are on (File, Options and settings, Options, Preview features), then restart Desktop.
-   Newer versions may already have them on.
+1. Use a current version of Power BI Desktop (tested with 2.160, November 2026, with no preview
+   settings changed). An older version may need the Power BI Project (.pbip), TMDL and PBIR preview
+   features switched on under File, Options and settings, Options, Preview features.
 2. Open `Renewable_Energy.pbip`.
 3. A PBIP stores no data, so click **Refresh**. When asked how to connect to
    `raw.githubusercontent.com`, choose **Anonymous**. The default address reads the files on the `main` branch.
+   If Power BI then asks for **privacy levels**, choose **Public** (the data is public and synthetic)
+   and click **Save**.
 4. To load local files instead: Home, Transform data, Manage parameters, set `DataBaseUrl`
    to the full path of `data\\processed` in your clone.
 5. Save as `.pbix` (File, Save as) if you want a single file to share or publish.
@@ -44,12 +45,28 @@ Renewable generation **278,630 GWh**, curtailed **1,403 GWh** (loss **0.50%**), 
 Curtailment peaks at hour **11** (average **95 MW** per zone-hour, with hour 1 almost as high). Month-over-month growth is blank for
 January 2025 and **-8.2%** for February. All seven data-quality checks should show PASS.
 
-## Verification status
+## Verification
 
-- The semantic model loads in Microsoft's TMDL parser (`Microsoft.AnalysisServices`) with no validation errors.
-- The report JSON files that declare a `$schema` validate against Microsoft's published schemas.
-- The Power Query code passes Microsoft's Power Query parser (syntax only).
-- `tests/test_powerbi.py` checks that visuals only use fields that exist in the model and that the
-  fallback files match the model.
-- The project has **not yet been opened and refreshed in Power BI Desktop**, so the Power Query and DAX
-  code has not been executed. Use the expected figures above to confirm it on first refresh.
+Tested in Power BI Desktop 2.160 on Windows: the project opens, refreshes from GitHub, all 17
+measures evaluate without errors, every data-quality check passes, and the figures queried from the loaded
+model match an independent calculation in pandas. The screenshots below come from that run.
+
+`tests/test_powerbi.py` checks the files' consistency on every CI run; it does not start Power BI.
+
+## Screenshots
+
+**Grid Overview**
+
+![Grid Overview page in Power BI Desktop](../docs/powerbi/1-grid-overview.png)
+
+**Curtailment**
+
+![Curtailment page in Power BI Desktop](../docs/powerbi/2-curtailment.png)
+
+**Zones and Growth**
+
+![Zones and Growth page in Power BI Desktop](../docs/powerbi/3-zones-and-growth.png)
+
+**Data Quality**
+
+![Data Quality page in Power BI Desktop](../docs/powerbi/4-data-quality.png)
