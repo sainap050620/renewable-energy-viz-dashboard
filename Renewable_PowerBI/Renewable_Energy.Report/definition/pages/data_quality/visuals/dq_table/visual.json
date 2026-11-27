@@ -1,0 +1,106 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "dq_table",
+  "position": {
+    "x": 20,
+    "y": 20,
+    "z": 0,
+    "height": 360,
+    "width": 1240,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_checks"
+                    }
+                  },
+                  "Property": "Check"
+                }
+              },
+              "queryRef": "dq_checks.Check",
+              "nativeQueryRef": "Check",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_checks"
+                    }
+                  },
+                  "Property": "Rule"
+                }
+              },
+              "queryRef": "dq_checks.Rule",
+              "nativeQueryRef": "Rule",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_checks"
+                    }
+                  },
+                  "Property": "Violations"
+                }
+              },
+              "queryRef": "dq_checks.Violations",
+              "nativeQueryRef": "Violations",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dq_checks"
+                    }
+                  },
+                  "Property": "Status"
+                }
+              },
+              "queryRef": "dq_checks.Status",
+              "nativeQueryRef": "Status",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Data Quality Checks'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

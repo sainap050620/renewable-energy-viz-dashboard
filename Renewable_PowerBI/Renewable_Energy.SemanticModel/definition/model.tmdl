@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Parameters
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Functions
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation PBI_QueryOrder = ["DataBaseUrl","GetCsv","fact_generation","dim_date","dim_zone","dq_checks"]
+
+ref table fact_generation
+ref table dim_date
+ref table dim_zone
+ref table dq_checks
+
+ref expression DataBaseUrl
+ref expression GetCsv

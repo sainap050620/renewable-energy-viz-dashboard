@@ -1,0 +1,79 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "ov_share",
+  "position": {
+    "x": 880,
+    "y": 150,
+    "z": 6000,
+    "height": 550,
+    "width": 380,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_zone"
+                    }
+                  },
+                  "Property": "tso_zone"
+                }
+              },
+              "queryRef": "dim_zone.tso_zone",
+              "nativeQueryRef": "tso_zone",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Avg Renewable Share %"
+                }
+              },
+              "queryRef": "fact_generation.Avg Renewable Share %",
+              "nativeQueryRef": "Avg Renewable Share %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average Renewable Share by TSO Zone'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

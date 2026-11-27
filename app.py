@@ -42,6 +42,10 @@ selected_tso = st.sidebar.multiselect(
 # Filter data
 filtered = df[df["tso_zone"].isin(selected_tso)]
 
+if filtered.empty:
+    st.warning("No data matches this filter. Select at least one TSO zone.")
+    st.stop()
+
 # Executive KPIs
 col1, col2, col3, col4 = st.columns(4)
 total_gen_gwh = (filtered["total_renewable_mw"].sum() / 1000).round(1)
@@ -67,7 +71,7 @@ with col_left:
     fig_mix.add_trace(go.Bar(x=monthly["month"], y=monthly["solar_mw"], name="Solar PV", marker_color="#FFAA00"))
     fig_mix.add_trace(go.Scatter(x=monthly["month"], y=monthly["grid_demand_mw"], name="Avg Demand", line=dict(color="#FF4B4B", width=2)))
     fig_mix.update_layout(barmode="stack", yaxis_title="Average Power (MW)", legend=dict(orientation="h", y=1.1))
-    st.plotly_chart(fig_mix, use_container_width=True)
+    st.plotly_chart(fig_mix, width="stretch")
 
 with col_right:
     st.subheader("Renewable Share by Transmission Control Zone")
@@ -80,7 +84,7 @@ with col_right:
         labels={"renewable_share_pct": "Renewable Share (%)", "tso_zone": "TSO Zone"},
         title="Mean Renewable Penetration per Control Area"
     )
-    st.plotly_chart(fig_tso, use_container_width=True)
+    st.plotly_chart(fig_tso, width="stretch")
 
 # Visualizations Row 2: Grid Stress & Curtailment Analysis
 st.subheader("Grid Congestion & Redispatch Pressure")
@@ -95,4 +99,4 @@ fig_curtail = px.area(
     labels={"Hour_of_Day": "Hour of Day (UTC)", "Avg_Curtailed_MW": "Curtailed Feed-in (MW)"},
     title="Hourly Curtailment Distribution Profile"
 )
-st.plotly_chart(fig_curtail, use_container_width=True)
+st.plotly_chart(fig_curtail, width="stretch")

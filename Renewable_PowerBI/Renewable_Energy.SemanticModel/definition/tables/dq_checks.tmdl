@@ -1,0 +1,57 @@
+table dq_checks
+	lineageTag: e25e1123-0c23-5366-8c2b-a6373b212d1a
+
+	column Check
+		dataType: string
+		lineageTag: 8e8e390a-c5c6-5b28-84f3-d18cdbaac56b
+		summarizeBy: none
+		sourceColumn: Check
+
+	column Rule
+		dataType: string
+		lineageTag: 3014a921-18cf-5af5-a6bd-e7c7fb7bafa1
+		summarizeBy: none
+		sourceColumn: Rule
+
+	column Violations
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3cd64027-1e93-5fab-8cd4-e6aa6b977c16
+		summarizeBy: none
+		sourceColumn: Violations
+
+	column Status
+		dataType: string
+		lineageTag: 97239e65-4411-59f2-8ad3-d7b85262f279
+		summarizeBy: none
+		sourceColumn: Status
+
+	partition dq_checks = m
+		mode: import
+		source =
+				let
+					// Violations are reported instead of stopping the refresh, so the report can show them.
+					Checks = #table(
+						type table [Check = text, Rule = text, Violations = Int64.Type],
+						{
+							{"Hourly series is complete", "One row per day, zone and hour",
+								Number.Abs(Table.RowCount(fact_generation) - Table.RowCount(dim_date) * Table.RowCount(dim_zone) * 24)},
+							{"No duplicate readings", "date_id, zone_id and hour are unique",
+								Table.RowCount(fact_generation) - Table.RowCount(Table.Distinct(fact_generation, {"date_id", "zone_id", "hour"}))},
+							{"Power is not negative", "All MW columns >= 0",
+								Table.RowCount(Table.SelectRows(fact_generation, each [solar_mw] < 0 or [wind_mw] < 0 or [total_renewable_mw] < 0 or [grid_demand_mw] < 0 or [curtailment_mw] < 0 or [residual_load_mw] < 0))},
+							{"Curtailment is plausible", "curtailment_mw <= total_renewable_mw",
+								Table.RowCount(Table.SelectRows(fact_generation, each [curtailment_mw] > [total_renewable_mw]))},
+							{"Renewable share in range", "0 to 100 percent",
+								Table.RowCount(Table.SelectRows(fact_generation, each [renewable_share_pct] < 0 or [renewable_share_pct] > 100))},
+							{"Date keys resolve", "fact.date_id exists in dim_date",
+								List.Count(List.Difference(List.Distinct(fact_generation[date_id]), dim_date[date_id]))},
+							{"Zone keys resolve", "fact.zone_id exists in dim_zone",
+								List.Count(List.Difference(List.Distinct(fact_generation[zone_id]), dim_zone[zone_id]))}
+						}
+					),
+					WithStatus = Table.AddColumn(
+						Checks, "Status", each if [Violations] = 0 then "PASS" else "FAIL", type text
+					)
+				in
+					WithStatus

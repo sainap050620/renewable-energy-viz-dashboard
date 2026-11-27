@@ -1,0 +1,191 @@
+table fact_generation
+	lineageTag: 2d7d869a-576c-519b-92a1-a96462334bc2
+
+	measure 'Renewable Generation GWh' = DIVIDE(SUM(fact_generation[total_renewable_mw]), 1000)
+		formatString: #,0
+		displayFolder: 1 Generation
+		lineageTag: b97ce180-fb64-5ff9-a35a-02bdd1fc8407
+
+	measure 'Wind GWh' = DIVIDE(SUM(fact_generation[wind_mw]), 1000)
+		formatString: #,0
+		displayFolder: 1 Generation
+		lineageTag: 6022d48d-4dbd-5f00-8944-c9e33a8a27c3
+
+	measure 'Solar GWh' = DIVIDE(SUM(fact_generation[solar_mw]), 1000)
+		formatString: #,0
+		displayFolder: 1 Generation
+		lineageTag: ecd22aa9-fcd0-5d5f-b038-4dd016373f81
+
+	measure 'Wind Share of Renewables %' = DIVIDE([Wind GWh], [Renewable Generation GWh])
+		formatString: 0.0%
+		displayFolder: 1 Generation
+		lineageTag: 5a41d304-8b89-5014-9498-5bbd9a8de283
+
+	measure 'Curtailed GWh' = DIVIDE(SUM(fact_generation[curtailment_mw]), 1000)
+		formatString: #,0
+		displayFolder: 1 Generation
+		lineageTag: 91b0b5c6-b6ad-53c6-ab93-05b3482afe1a
+
+	measure 'Curtailment Loss %' = DIVIDE([Curtailed GWh], [Renewable Generation GWh])
+		formatString: 0.00%
+		displayFolder: 1 Generation
+		lineageTag: 6cafe84b-8465-58a5-8dc7-205c6a73bc56
+
+	measure 'Zone-Hours with Curtailment' = CALCULATE(COUNTROWS(fact_generation), fact_generation[curtailment_mw] > 0)
+		formatString: #,0
+		displayFolder: 1 Generation
+		lineageTag: 59b8c510-0d63-5b91-96de-063ef0356e4f
+
+	measure 'Avg Wind MW' = AVERAGE(fact_generation[wind_mw])
+		formatString: #,0
+		displayFolder: 2 Average power
+		lineageTag: fe802d10-5234-5748-b48c-91b85a6ea35b
+
+	measure 'Avg Solar MW' = AVERAGE(fact_generation[solar_mw])
+		formatString: #,0
+		displayFolder: 2 Average power
+		lineageTag: cb8eeab6-14f4-528f-889c-77058397f413
+
+	measure 'Avg Demand MW' = AVERAGE(fact_generation[grid_demand_mw])
+		formatString: #,0
+		displayFolder: 2 Average power
+		lineageTag: acfaccf1-124d-5b1a-a48e-338c63f0c399
+
+	measure 'Avg Residual Load MW' = AVERAGE(fact_generation[residual_load_mw])
+		formatString: #,0
+		displayFolder: 2 Average power
+		lineageTag: 163cdb8a-4a3f-5a91-83a5-257af2dd9bc1
+
+	measure 'Avg Curtailed MW' = AVERAGE(fact_generation[curtailment_mw])
+		formatString: #,0
+		displayFolder: 2 Average power
+		lineageTag: c489346e-5d42-5e37-b532-38179fa83d51
+
+	measure 'Avg Renewable Share %' = DIVIDE(AVERAGE(fact_generation[renewable_share_pct]), 100)
+		formatString: 0.0%
+		displayFolder: 2 Average power
+		lineageTag: 91c05978-a668-52ee-b2bf-1f4121d42568
+
+	measure 'Renewable GWh PM' = CALCULATE([Renewable Generation GWh], DATEADD(dim_date[full_date], -1, MONTH))
+		formatString: #,0
+		displayFolder: 3 Time intelligence
+		lineageTag: cafe64af-e147-5ce8-acc8-b23dfe98c7f5
+
+	measure 'Generation MoM %' =
+			IF(
+				NOT ISBLANK([Renewable GWh PM]),
+				DIVIDE([Renewable Generation GWh] - [Renewable GWh PM], [Renewable GWh PM])
+			)
+		formatString: 0.0%
+		displayFolder: 3 Time intelligence
+		lineageTag: 7172d001-7349-56fd-8fba-0599706a964a
+
+	measure 'Generation Share %' =
+			DIVIDE(
+				[Renewable Generation GWh],
+				CALCULATE([Renewable Generation GWh], ALLSELECTED(dim_zone[tso_zone]))
+			)
+		formatString: 0.0%
+		displayFolder: 4 Zones
+		lineageTag: 812f3fa9-f714-5eb6-a6e3-1334abf81e10
+
+	measure 'Zone Generation Rank' = RANKX(ALLSELECTED(dim_zone[tso_zone]), [Renewable Generation GWh], , DESC, Dense)
+		formatString: 0
+		displayFolder: 4 Zones
+		lineageTag: 576c7596-a114-544d-ae23-bb634bb6b54a
+
+	column date_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e23fead4-ec72-538e-b777-65de0500bd58
+		summarizeBy: none
+		sourceColumn: date_id
+
+	column zone_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ccea9546-4ec6-5bd4-b571-9fea435ba79e
+		summarizeBy: none
+		sourceColumn: zone_id
+
+	column hour
+		dataType: int64
+		formatString: 0
+		lineageTag: ee61e0cc-e95b-5875-b382-beae185f8bd6
+		summarizeBy: none
+		sourceColumn: hour
+
+	column solar_mw
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 26265702-4f5d-5ad8-8477-87d1ef0183d0
+		summarizeBy: none
+		sourceColumn: solar_mw
+
+	column wind_mw
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 227ae256-3058-5115-93d2-adfad7c8f35e
+		summarizeBy: none
+		sourceColumn: wind_mw
+
+	column total_renewable_mw
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 6e8e87d5-ba31-5e76-9eca-1741ee7dc1cc
+		summarizeBy: none
+		sourceColumn: total_renewable_mw
+
+	column grid_demand_mw
+		dataType: double
+		formatString: #,0.0
+		lineageTag: ff25009d-91e2-53cf-9dfb-76e1737aa60d
+		summarizeBy: none
+		sourceColumn: grid_demand_mw
+
+	column curtailment_mw
+		dataType: double
+		formatString: #,0.0
+		lineageTag: d2213fb6-6f30-55b1-a613-bf2fa87240cf
+		summarizeBy: none
+		sourceColumn: curtailment_mw
+
+	column residual_load_mw
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 4bd64cf0-31c3-5a2a-bf4b-06371257c329
+		summarizeBy: none
+		sourceColumn: residual_load_mw
+
+	column renewable_share_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: 3858ecbb-16c5-5e9c-b35b-3aa837b50e91
+		summarizeBy: none
+		sourceColumn: renewable_share_pct
+
+	partition fact_generation = m
+		mode: import
+		source =
+				let
+					Source = GetCsv("fact_generation.csv"),
+					Typed = Table.TransformColumnTypes(
+						Source,
+						{
+							{"date_id", Int64.Type},
+							{"zone_id", Int64.Type},
+							{"hour", Int64.Type},
+							{"solar_mw", type number},
+							{"wind_mw", type number},
+							{"total_renewable_mw", type number},
+							{"grid_demand_mw", type number},
+							{"curtailment_mw", type number},
+							{"residual_load_mw", type number},
+							{"renewable_share_pct", type number}
+						},
+						"en-US"
+					)
+				in
+					Typed

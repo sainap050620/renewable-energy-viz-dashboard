@@ -14,7 +14,7 @@ def generate_renewable_dataset():
 
     for tso in tso_zones:
         # Seasonality factors
-        day_of_year = dates.dayofyear.values
+        day_of_year = dates.day_of_year.values
         hour = dates.hour.values
 
         # Solar peaks in summer midday

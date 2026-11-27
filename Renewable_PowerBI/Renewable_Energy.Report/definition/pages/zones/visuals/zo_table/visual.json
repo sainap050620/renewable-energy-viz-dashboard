@@ -1,0 +1,176 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "zo_table",
+  "position": {
+    "x": 20,
+    "y": 20,
+    "z": 0,
+    "height": 240,
+    "width": 1240,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_zone"
+                    }
+                  },
+                  "Property": "tso_zone"
+                }
+              },
+              "queryRef": "dim_zone.tso_zone",
+              "nativeQueryRef": "tso_zone",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Renewable Generation GWh"
+                }
+              },
+              "queryRef": "fact_generation.Renewable Generation GWh",
+              "nativeQueryRef": "Renewable Generation GWh"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Generation Share %"
+                }
+              },
+              "queryRef": "fact_generation.Generation Share %",
+              "nativeQueryRef": "Generation Share %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Zone Generation Rank"
+                }
+              },
+              "queryRef": "fact_generation.Zone Generation Rank",
+              "nativeQueryRef": "Zone Generation Rank"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Wind GWh"
+                }
+              },
+              "queryRef": "fact_generation.Wind GWh",
+              "nativeQueryRef": "Wind GWh"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Solar GWh"
+                }
+              },
+              "queryRef": "fact_generation.Solar GWh",
+              "nativeQueryRef": "Solar GWh"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Wind Share of Renewables %"
+                }
+              },
+              "queryRef": "fact_generation.Wind Share of Renewables %",
+              "nativeQueryRef": "Wind Share of Renewables %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Avg Renewable Share %"
+                }
+              },
+              "queryRef": "fact_generation.Avg Renewable Share %",
+              "nativeQueryRef": "Avg Renewable Share %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_generation"
+                  }
+                },
+                "Property": "Renewable Generation GWh"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TSO Zone Comparison'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

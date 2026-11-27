@@ -1,0 +1,59 @@
+table dim_date
+	dataCategory: Time
+	lineageTag: 4d8dff4b-74fe-5e9c-8688-f0d8be07a8d1
+
+	column date_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 212a4cf6-e240-58a2-a8f6-4150fcdab5a1
+		summarizeBy: none
+		sourceColumn: date_id
+
+	column full_date
+		dataType: dateTime
+		isKey
+		formatString: dd mmm yyyy
+		lineageTag: 31cb4e62-9ded-5209-82ff-c6ff80806dc7
+		summarizeBy: none
+		sourceColumn: full_date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 9f7be95f-5ba2-51b3-9803-4b35367a35fa
+		summarizeBy: none
+		sourceColumn: year
+
+	column month
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 83e878a3-813f-5f65-b7fa-e89dcf540d88
+		summarizeBy: none
+		sourceColumn: month
+
+	column year_month
+		dataType: string
+		lineageTag: ba49b33d-7517-583a-b3dd-1d0f7c84a8b1
+		summarizeBy: none
+		sourceColumn: year_month
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+					Source = GetCsv("dim_date.csv"),
+					Typed = Table.TransformColumnTypes(
+						Source,
+						{
+							{"date_id", Int64.Type},
+							{"full_date", type date},
+							{"year", Int64.Type},
+							{"month", Int64.Type},
+							{"year_month", type text}
+						},
+						"en-US"
+					)
+				in
+					Typed
