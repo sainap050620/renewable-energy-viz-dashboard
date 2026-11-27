@@ -38,8 +38,10 @@ A sidebar filter lets you compare any combination of TSO zones.
 - **DAX:** 17 measures covering generation, curtailment, growth and zone ranking
 - **Report:** Grid Overview, Curtailment, Zones and Growth, Data Quality
 
+![Grid Overview page of the Power BI report](docs/powerbi/1-grid-overview.png)
+
 Open `Renewable_Energy.pbip` in Power BI Desktop and click **Refresh**. See the
-[Power BI guide](Renewable_PowerBI/README.md) for setup, expected figures and verification status.
+[Power BI guide](Renewable_PowerBI/README.md) for setup, expected figures and all report pages.
 The committed CSVs in `data/processed/` can be rebuilt with `python -m src.export_powerbi`.
 
 ## 🚀 Quickstart
