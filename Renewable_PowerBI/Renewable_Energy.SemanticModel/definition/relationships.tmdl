@@ -1,0 +1,7 @@
+relationship 38af61a8-9608-551d-b30b-4532fe708a04
+	fromColumn: fact_generation.date_id
+	toColumn: dim_date.date_id
+
+relationship 0f8e8ca8-0a00-571a-b92d-47f9ee96d84d
+	fromColumn: fact_generation.zone_id
+	toColumn: dim_zone.zone_id

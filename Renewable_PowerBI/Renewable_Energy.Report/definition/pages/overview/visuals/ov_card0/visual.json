@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "ov_card0",
+  "position": {
+    "x": 20,
+    "y": 20,
+    "z": 0,
+    "height": 110,
+    "width": 300,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Renewable Generation GWh"
+                }
+              },
+              "queryRef": "fact_generation.Renewable Generation GWh",
+              "nativeQueryRef": "Renewable Generation GWh"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Renewable Generation GWh'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -14,11 +14,11 @@ def generate_renewable_dataset():
 
     for tso in tso_zones:
         # Seasonality factors
-        day_of_year = dates.dayofyear.values
+        day_of_year = dates.day_of_year.values
         hour = dates.hour.values
 
-        # Solar peaks in summer midday
-        solar_base = np.maximum(0, np.sin((hour - 6) * np.pi / 12)) * (1 + 0.5 * np.sin(day_of_year * 2 * np.pi / 365))
+        # Solar peaks at midday and around the June solstice, lowest around the December solstice
+        solar_base = np.maximum(0, np.sin((hour - 6) * np.pi / 12)) * (1 - 0.5 * np.cos((day_of_year + 10) * 2 * np.pi / 365))
         solar_mw = (solar_base * (18000 if tso in ["TenneT", "Amprion"] else 9000) * np.random.uniform(0.7, 1.1, n)).round(1)
 
         # Wind peaks in winter and autumn (higher in northern TSOs: TenneT, 50Hertz)

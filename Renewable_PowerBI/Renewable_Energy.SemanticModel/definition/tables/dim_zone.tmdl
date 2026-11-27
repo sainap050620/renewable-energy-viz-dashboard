@@ -1,0 +1,32 @@
+table dim_zone
+	lineageTag: edb42b11-e658-596c-b881-20b51c9cf6af
+
+	column zone_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 824a9d8d-8949-58d5-bfbf-e0c890574058
+		summarizeBy: none
+		sourceColumn: zone_id
+
+	column tso_zone
+		dataType: string
+		lineageTag: fb7d2628-4815-52c0-9d96-afb5a662fffd
+		summarizeBy: none
+		sourceColumn: tso_zone
+
+	partition dim_zone = m
+		mode: import
+		source =
+				let
+					Source = GetCsv("dim_zone.csv"),
+					Typed = Table.TransformColumnTypes(
+						Source,
+						{
+							{"zone_id", Int64.Type},
+							{"tso_zone", type text}
+						},
+						"en-US"
+					)
+				in
+					Typed

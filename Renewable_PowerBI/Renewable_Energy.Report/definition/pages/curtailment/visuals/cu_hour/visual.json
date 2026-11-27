@@ -1,0 +1,96 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "cu_hour",
+  "position": {
+    "x": 20,
+    "y": 20,
+    "z": 0,
+    "height": 320,
+    "width": 1240,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "areaChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "hour"
+                }
+              },
+              "queryRef": "fact_generation.hour",
+              "nativeQueryRef": "hour",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Avg Curtailed MW"
+                }
+              },
+              "queryRef": "fact_generation.Avg Curtailed MW",
+              "nativeQueryRef": "Avg Curtailed MW"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_generation"
+                  }
+                },
+                "Property": "hour"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average Curtailed Feed-In by Hour of Day (MW)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

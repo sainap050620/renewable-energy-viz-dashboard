@@ -1,0 +1,120 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "zo_mom",
+  "position": {
+    "x": 20,
+    "y": 280,
+    "z": 1000,
+    "height": 420,
+    "width": 1240,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "year_month"
+                }
+              },
+              "queryRef": "dim_date.year_month",
+              "nativeQueryRef": "year_month",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Renewable Generation GWh"
+                }
+              },
+              "queryRef": "fact_generation.Renewable Generation GWh",
+              "nativeQueryRef": "Renewable Generation GWh"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Renewable GWh PM"
+                }
+              },
+              "queryRef": "fact_generation.Renewable GWh PM",
+              "nativeQueryRef": "Renewable GWh PM"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Generation MoM %"
+                }
+              },
+              "queryRef": "fact_generation.Generation MoM %",
+              "nativeQueryRef": "Generation MoM %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_date"
+                  }
+                },
+                "Property": "year_month"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Month-over-Month Generation'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

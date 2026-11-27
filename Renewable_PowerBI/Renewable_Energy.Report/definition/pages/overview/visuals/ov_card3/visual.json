@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "ov_card3",
+  "position": {
+    "x": 950,
+    "y": 20,
+    "z": 3000,
+    "height": 110,
+    "width": 300,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_generation"
+                    }
+                  },
+                  "Property": "Avg Residual Load MW"
+                }
+              },
+              "queryRef": "fact_generation.Avg Residual Load MW",
+              "nativeQueryRef": "Avg Residual Load MW"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Avg Residual Load MW'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,73 @@
+// 1 Generation
+Renewable Generation GWh =
+    DIVIDE(SUM(fact_generation[total_renewable_mw]), 1000)
+
+// 1 Generation
+Wind GWh =
+    DIVIDE(SUM(fact_generation[wind_mw]), 1000)
+
+// 1 Generation
+Solar GWh =
+    DIVIDE(SUM(fact_generation[solar_mw]), 1000)
+
+// 1 Generation
+Wind Share of Renewables % =
+    DIVIDE([Wind GWh], [Renewable Generation GWh])
+
+// 1 Generation
+Curtailed GWh =
+    DIVIDE(SUM(fact_generation[curtailment_mw]), 1000)
+
+// 1 Generation
+Curtailment Loss % =
+    DIVIDE([Curtailed GWh], [Renewable Generation GWh])
+
+// 1 Generation
+Zone-Hours with Curtailment =
+    CALCULATE(COUNTROWS(fact_generation), fact_generation[curtailment_mw] > 0)
+
+// 2 Average power
+Avg Wind MW =
+    AVERAGE(fact_generation[wind_mw])
+
+// 2 Average power
+Avg Solar MW =
+    AVERAGE(fact_generation[solar_mw])
+
+// 2 Average power
+Avg Demand MW =
+    AVERAGE(fact_generation[grid_demand_mw])
+
+// 2 Average power
+Avg Residual Load MW =
+    AVERAGE(fact_generation[residual_load_mw])
+
+// 2 Average power
+Avg Curtailed MW =
+    AVERAGE(fact_generation[curtailment_mw])
+
+// 2 Average power
+Avg Renewable Share % =
+    DIVIDE(AVERAGE(fact_generation[renewable_share_pct]), 100)
+
+// 3 Time intelligence
+Renewable GWh PM =
+    CALCULATE([Renewable Generation GWh], DATEADD(dim_date[full_date], -1, MONTH))
+
+// 3 Time intelligence
+Generation MoM % =
+    IF(
+        NOT ISBLANK([Renewable GWh PM]),
+        DIVIDE([Renewable Generation GWh] - [Renewable GWh PM], [Renewable GWh PM])
+    )
+
+// 4 Zones
+Generation Share % =
+    DIVIDE(
+        [Renewable Generation GWh],
+        CALCULATE([Renewable Generation GWh], ALLSELECTED(dim_zone[tso_zone]))
+    )
+
+// 4 Zones
+Zone Generation Rank =
+    RANKX(ALLSELECTED(dim_zone[tso_zone]), [Renewable Generation GWh], , DESC, Dense)

@@ -1,0 +1,25 @@
+expression DataBaseUrl = "https://raw.githubusercontent.com/sainap050620/renewable-energy-viz-dashboard/main/data/processed" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: b6e56e35-4426-5db1-9b35-793351b4d094
+	queryGroup: Parameters
+
+expression GetCsv =
+		(fileName as text) as table =>
+		let
+			// DataBaseUrl is a parameter: an https:// folder URL (default: the GitHub repo)
+			// or a local folder path such as C:\Data\processed
+			Source =
+				if Text.StartsWith(DataBaseUrl, "http") then
+					Csv.Document(
+						Web.Contents(DataBaseUrl, [RelativePath = fileName]),
+						[Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+					)
+				else
+					Csv.Document(
+						File.Contents(DataBaseUrl & "\" & fileName),
+						[Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+					),
+			Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true])
+		in
+			Promoted
+	lineageTag: 8e16d147-a6b9-5c93-b62d-3b1d3774358e
+	queryGroup: Functions
