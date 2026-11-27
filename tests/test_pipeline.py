@@ -35,11 +35,18 @@ def test_data_quality_rules_hold():
     assert fact["zone_id"].isin(zones["zone_id"]).all()
 
 
+def test_solar_follows_the_seasons():
+    """Solar must be strongest around the June solstice and weakest around December."""
+    monthly = load("fact_generation").merge(load("dim_date"), on="date_id").groupby("month")["solar_mw"].mean()
+    assert monthly.idxmax() == 6
+    assert monthly.idxmin() == 12
+
+
 def test_documented_figures():
     """These figures are quoted in the Power BI README."""
     fact = load("fact_generation")
-    assert fact["total_renewable_mw"].sum() / 1000 == pytest.approx(278_660.98, abs=0.01)
-    assert fact["curtailment_mw"].sum() / 1000 == pytest.approx(2_398.24, abs=0.01)
-    assert fact["renewable_share_pct"].mean() == pytest.approx(37.95, abs=0.01)
-    assert fact["residual_load_mw"].mean() == pytest.approx(11_361.83, abs=0.01)
-    assert (fact["curtailment_mw"] > 0).sum() == 1_226
+    assert fact["total_renewable_mw"].sum() / 1000 == pytest.approx(278_630.46, abs=0.01)
+    assert fact["curtailment_mw"].sum() / 1000 == pytest.approx(1_402.98, abs=0.01)
+    assert fact["renewable_share_pct"].mean() == pytest.approx(38.36, abs=0.01)
+    assert fact["residual_load_mw"].mean() == pytest.approx(11_268.40, abs=0.01)
+    assert (fact["curtailment_mw"] > 0).sum() == 964

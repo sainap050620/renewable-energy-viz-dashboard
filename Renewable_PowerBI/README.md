@@ -31,18 +31,18 @@ then paste the measures from `DAX_measures.dax`.
 
 ## Expected figures (no filters)
 
-Renewable generation **278,661 GWh**, curtailed **2,398 GWh** (loss **0.86%**), average renewable share
-**38.0%**, average residual load **11,362 MW**, zone-hours with curtailment **1,226**.
+Renewable generation **278,630 GWh**, curtailed **1,403 GWh** (loss **0.50%**), average renewable share
+**38.4%**, average residual load **11,268 MW**, zone-hours with curtailment **964**.
 
 | TSO zone | Generation GWh | Share of generation | Curtailed GWh | Loss % | Avg renewable share |
 |---|---|---|---|---|---|
-| TenneT | 114,178 | 41.0% | 2,339 | 2.05% | 60.5% |
-| Amprion | 62,446 | 22.4% | 38 | 0.06% | 32.8% |
-| 50Hertz | 62,309 | 22.4% | 21 | 0.03% | 36.5% |
-| TransnetBW | 39,727 | 14.3% | 0 | 0.00% | 22.0% |
+| TenneT | 114,176 | 41.0% | 1,379 | 1.21% | 61.9% |
+| Amprion | 62,366 | 22.4% | 5 | 0.01% | 32.9% |
+| 50Hertz | 62,335 | 22.4% | 18 | 0.03% | 36.5% |
+| TransnetBW | 39,753 | 14.3% | 0 | 0.00% | 22.0% |
 
-Curtailment peaks at hour **11** (average **232 MW** per zone-hour). Month-over-month growth is blank for
-January 2025 and **-6.6%** for February. All seven data-quality checks should show PASS.
+Curtailment peaks at hour **11** (average **95 MW** per zone-hour, with hour 1 almost as high). Month-over-month growth is blank for
+January 2025 and **-8.2%** for February. All seven data-quality checks should show PASS.
 
 ## Verification status
 
